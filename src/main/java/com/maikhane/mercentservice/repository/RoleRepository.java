@@ -2,10 +2,9 @@ package com.maikhane.mercentservice.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.maikhane.mercentservice.entity.BusinessOwner;
+import com.maikhane.mercentservice.entity.Role;
 
 @Repository
-public interface BusinessOwnerRepository extends JpaRepository<BusinessOwner, Integer> {
+public interface RoleRepository extends JpaRepository<Role, Integer> {
 
 }
