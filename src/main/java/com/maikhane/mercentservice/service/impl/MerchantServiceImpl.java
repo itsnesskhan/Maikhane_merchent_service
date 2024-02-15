@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import com.google.common.base.Optional;
+import com.maikhane.mercentservice.constants.Constants;
 import com.maikhane.mercentservice.dto.MerchantDTO;
 import com.maikhane.mercentservice.entity.Merchant;
 import com.maikhane.mercentservice.exception.MerchantNotFoundException;
@@ -31,21 +32,26 @@ public class MerchantServiceImpl implements MerchantService {
 	@Override
 	public CommonResponse addMerchant(MerchantDTO merchantDTO) {
 		
-		if (ObjectUtils.isEmpty(merchantDTO.getEmail())) throw new RuntimeException("Please enter the email ?");
+		if (ObjectUtils.isEmpty(merchantDTO.getEmail())) throw new RuntimeException(Constants.ENTER_EMAIL_MSG);
 		
-		if (ObjectUtils.isEmpty(merchantDTO.getContactNumber())) throw new RuntimeException("Please enter the mobile number ");
+		if (ObjectUtils.isEmpty(merchantDTO.getContactNumber())) throw new RuntimeException(Constants.ENTER_MOBILE_NUMBER_MSG);
+		
+		if (ObjectUtils.isEmpty(merchantDTO.getUsername())) throw new RuntimeException(Constants.ENTER_USERNAME_MSG);
 		
 		Optional<Merchant> email = merchantRepository.findByEmail(merchantDTO.getEmail());
-		if (email.isPresent()) throw new RuntimeException("email already registred!");
+		if (email.isPresent()) throw new RuntimeException(Constants.EMAIL_ALREADY_REGISTRED);
 		
 		Optional<Merchant> contactNumber = merchantRepository.findByContactNumber(merchantDTO.getContactNumber());
-		if (contactNumber.isPresent()) throw new RuntimeException("mobile number already registred!");
+		if (contactNumber.isPresent()) throw new RuntimeException(Constants.MOBILE_NUMBER_ALREADY_REGISTRED);
+		
+		Optional<Merchant> username = merchantRepository.findByUsername(merchantDTO.getUsername());
+		if (username.isPresent()) throw new RuntimeException(Constants.USERNAME_ALREADY_REGISTRED);
 			
 		Merchant merchant = modelMapper.map(merchantDTO, Merchant.class);
 		merchant = merchantRepository.save(merchant);
 		return CommonResponse.builder()
 				.data(merchant)
-				.message("Merchant added Successfully!")
+				.message(Constants.MERCHANT_SAVE_MSG)
 				.status(HttpStatus.CREATED)
 				.build();
 	}
@@ -55,7 +61,7 @@ public class MerchantServiceImpl implements MerchantService {
 		List<Merchant> allmerchant = merchantRepository.findAll();
 		return CommonResponse.builder()
 				.data(allmerchant)
-				.message("List of all merchant!")
+				.message(Constants.MERCHANT_GET_ALL_MSG)
 				.status(HttpStatus.OK)
 				.build();
 	}
@@ -63,11 +69,11 @@ public class MerchantServiceImpl implements MerchantService {
 	@Override
 	public CommonResponse getMerchantById(Integer id) {
 		Merchant merchant = merchantRepository.findById(id).orElseThrow(
-				()-> new MerchantNotFoundException("merchant not found with id : "+id)
+				()-> new MerchantNotFoundException(Constants.MERCHANT_NOT_FOUND_MSG+id)
 				);
 		return CommonResponse.builder()
 				.data(merchant)
-				.message("merchant with id : "+id)
+				.message(Constants.MERCHANT_GET_BY_ID_MSG+id)
 				.status(HttpStatus.OK)
 				.build() ;
 	}
@@ -75,7 +81,7 @@ public class MerchantServiceImpl implements MerchantService {
 	@Override
 	public CommonResponse updateMerchant(MerchantDTO merchantDTO) {
 		Merchant merchant = merchantRepository.findById(merchantDTO.getId()).orElseThrow(
-				()-> new MerchantNotFoundException("merchant not found with id : "+merchantDTO.getId()));
+				()-> new MerchantNotFoundException(Constants.MERCHANT_NOT_FOUND_MSG+merchantDTO.getId()));
 		
 		merchant.setEmail(merchantDTO.getEmail());
 		merchant.setPassword(merchantDTO.getPassword());
@@ -91,7 +97,7 @@ public class MerchantServiceImpl implements MerchantService {
 		merchant = merchantRepository.save(merchant);
 		return CommonResponse.builder()
 				.data(merchant)
-				.message("merchant updated!")
+				.message(Constants.MERCHANT_UPDATE_MSG)
 				.status(HttpStatus.OK)
 				.build();
 	}
@@ -99,11 +105,11 @@ public class MerchantServiceImpl implements MerchantService {
 	@Override
 	public CommonResponse deleteMerchantById(Integer id) {
 		Merchant merchant = merchantRepository.findById(id).orElseThrow(
-				()-> new MerchantNotFoundException("merchant not found with id : "+id));
+				()-> new MerchantNotFoundException(Constants.MERCHANT_NOT_FOUND_MSG+id));
 		
 		merchantRepository.delete(merchant);
 		return CommonResponse.builder()
-				.message("merchant deleted successfully!")
+				.message(Constants.MERCHANT_DELETE_MSG)
 				.status(HttpStatus.NO_CONTENT)
 				.build();
 	}

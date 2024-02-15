@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.maikhane.mercentservice.constants.ApiRouts;
 import com.maikhane.mercentservice.dto.MerchantDTO;
 import com.maikhane.mercentservice.response.CommonResponse;
 import com.maikhane.mercentservice.service.MerchantService;
 
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/api/v1/merchant")
+@RequestMapping(path = ApiRouts.BASE_URL+""+ApiRouts.MERCHANT_REQUEST_MAPPING)
 @RestController
 @RequiredArgsConstructor
 public class MerchantController {
@@ -26,32 +27,32 @@ public class MerchantController {
 	@Autowired
 	private final MerchantService MerchantService;
 	
-	@PostMapping("/save")
+	@PostMapping(path = ApiRouts.SAVE_API)
 	ResponseEntity<CommonResponse> addMerchant(@RequestBody MerchantDTO MerchantDTO){
 		CommonResponse response = MerchantService.addMerchant(MerchantDTO);
 		return ResponseEntity.created(null).body(response);
 	}
 	
-	@GetMapping("/get-all")
+	@GetMapping(path = ApiRouts.GET_ALL_API)
 	ResponseEntity<CommonResponse> getAllMerchant(){
 		CommonResponse response = MerchantService.getAllMerchant();
 		return ResponseEntity.ok(response);
 	}
 	
-	@GetMapping("/get/{id}")
+	@GetMapping(path = ApiRouts.GET_BY_ID_API)
 	ResponseEntity<CommonResponse> getMerchantById(@PathVariable Integer id){
 		CommonResponse response = MerchantService.getMerchantById(id);
 		return ResponseEntity.ok(response);
 	}
 	
-	@PutMapping("/update")
+	@PutMapping(path = ApiRouts.UPDATE_API)
 	ResponseEntity<CommonResponse> updateMerchantOwner(@RequestBody MerchantDTO MerchantDTO){
 		CommonResponse response = MerchantService.updateMerchant(MerchantDTO);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
 	
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping(path = ApiRouts.DELETE_API)
 	ResponseEntity<CommonResponse> deleteMerchantById(@PathVariable Integer id){
 		CommonResponse response = MerchantService.deleteMerchantById(id);
 		return ResponseEntity.ok(response);

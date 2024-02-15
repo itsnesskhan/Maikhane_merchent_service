@@ -12,4 +12,6 @@ public interface MerchantRepository extends JpaRepository<Merchant, Integer> {
 	Optional<Merchant> findByEmail(String email);
 	
 	Optional<Merchant> findByContactNumber(String contactNumber);
+	
+	Optional<Merchant> findByUsername(String username);
 }
