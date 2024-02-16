@@ -1,12 +1,20 @@
 package com.maikhane.mercentservice.dto;
 
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maikhane.mercentservice.entity.OwnershipEntity;
 import com.maikhane.mercentservice.entity.OwnershipMode;
+import com.maikhane.mercentservice.entity.Role;
 import com.maikhane.mercentservice.entity.VerfificationStatus;
 
 import lombok.AllArgsConstructor;
@@ -16,46 +24,40 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BusinessOwnerDTO {
+public class MerchantDTO {
 
 
 	private Integer id;
 	
 	private String name;
 	
-	private String designation;
-	
 	private String username;
 	
-	private String panNumber;
-	
 	private String email;
-	
-	@JsonProperty("gst_number" )
-	private String gstn;
-	
-	@JsonProperty("license_number")
-	private String lrid;
 	
 	private String password;
 	
 	private String contactNumber;
 	
-	@JsonProperty("date_of_birth")
-	private Date dob;
+	private Role role;
+		
+	private OwnershipMode ownerMode;
+	
+	private OwnershipEntity ownerEnity;
 	
 	private VerfificationStatus status;
 	
-	@JsonProperty("is_active")
+	@Column(name = "is_active")
 	private Boolean isActive;
 
-	@JsonProperty("address")
+	@Column(name = "address")
 	private String address;
-
-	@JsonProperty("roll_name")
-	private String roleName;
 	
-	private OwnershipMode owerMode;
+	@Column(name = "postal_address")
+	private String postalAddress;
+	
+	@Column(name = "city")
+	private String city;
 	
 	@CreationTimestamp
 	@JsonProperty("created_date")	

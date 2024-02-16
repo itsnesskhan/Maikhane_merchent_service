@@ -4,11 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class BusinessOwnerNotFoundException extends RuntimeException {
+public class MerchantNotFoundException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;
 
-	public BusinessOwnerNotFoundException(String message) {
+	public MerchantNotFoundException(String message) {
 		super(message);
 
 	}

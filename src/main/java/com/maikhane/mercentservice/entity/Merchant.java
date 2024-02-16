@@ -1,12 +1,23 @@
 package com.maikhane.mercentservice.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,7 +30,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class BusinessOwner {
+public class Merchant {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,25 +40,23 @@ public class BusinessOwner {
 	
 	private String username;
 	
-	private String panNumber;
-	
 	private String email;
-	
-	@Column(name = "gst_number" )
-	private String gstn;
-	
-	@Column(name = "license_number")
-	private String lrid;
 	
 	private String password;
 	
 	private String contactNumber;
 	
-	@Column(name = "date_of_birth")
-	private Date dob;
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "roll_id", nullable = false)
+	private Role role;
+		
+	@Enumerated(EnumType.STRING)
+	private OwnershipMode ownerMode;
 	
-	private OwnershipMode owerMode;
+	@Enumerated(EnumType.STRING)
+	private OwnershipEntity ownerEnity;
 	
+	@Enumerated(EnumType.STRING)
 	private VerfificationStatus status;
 	
 	@Column(name = "is_active")
@@ -58,9 +67,10 @@ public class BusinessOwner {
 	
 	@Column(name = "postal_address")
 	private String postalAddress;
+	
+	@Column(name = "city")
+	private String city;
 
-	@Column(name = "roll_name")
-	private String roleName;
 	
 	@CreationTimestamp
 	@Column(name = "created_date")	
